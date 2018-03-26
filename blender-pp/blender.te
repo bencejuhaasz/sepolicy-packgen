@@ -1,0 +1,84 @@
+policy_module(blender,1.0.0)
+
+require {
+
+	type user_t;
+	role user_r;
+	class unix_stream_socket connectto;
+	type pulseaudio_home_t;
+	type tmpfs_t;
+	type user_home_dir_t;
+	type user_t;
+	type pulseaudio_exec_t;
+	class unix_stream_socket connectto;
+	class file { execute execute_no_trans getattr lock map open read write };
+	class process { execmem setcap setrlimit setsched };
+	class netlink_kobject_uevent_socket { bind create getattr setopt };
+	class unix_dgram_socket { connect create };
+	attribute file_type;
+	type proc_t;
+	type sound_device_t;
+
+}
+
+type blender_t;
+type blender_exec_t;
+type blender_file_t;
+typeattribute blender_file_t file_type;
+typeattribute blender_exec_t file_type;
+application_domain(blender_t, blender_exec_t)
+domtrans_pattern(user_t, blender_exec_t, blender_t)
+#permissive blender_t;
+role user_r types {blender_t blender_file_t blender_exec_t};
+
+
+alsa_read_rw_config(blender_t)
+files_manage_generic_tmp_files(blender_t)
+
+pulseaudio_stream_connect(blender_t)
+allow user_t blender_file_t:file {relabelfrom};
+allow user_t blender_exec_t:file {relabelto};
+allow user_t blender_file_t:file {getattr read open};
+allow user_t blender_file_t:dir {getattr search read open};
+allow user_t blender_exec_t:file {execute read open};
+allow blender_t user_t:unix_stream_socket connectto;
+allow user_t blender_file_t:file {relabelto};
+allow user_t blender_file_t:dir relabelto;
+allow user_t blender_exec_t:file {relabelto};
+allow blender_t blender_file_t:dir { open read getattr search write add_name remove_name create rename};
+allow blender_t blender_file_t:file { getattr open read execute map write create rename unlink};
+allow blender_t self:process execmem;
+allow blender_t tmpfs_t:file { map read write };
+allow blender_t proc_t:file { getattr open read };
+allow blender_t self:netlink_kobject_uevent_socket { bind create getattr setopt };
+allow blender_t self:process { setcap setrlimit setsched };
+allow blender_t self:unix_dgram_socket { connect create };
+kernel_read_vm_sysctls(blender_t)
+files_manage_generic_tmp_dirs(blender_t)
+fs_getattr_tmpfs(blender_t)
+fs_list_tmpfs(blender_t)
+fs_read_cgroup_files(blender_t)
+
+dev_list_sysfs(blender_t)
+dev_read_sysfs(blender_t)
+
+fs_exec_tmpfs_files(user_t)
+fs_rw_inherited_tmpfs_files(user_t)
+
+
+dbus_stream_connect_system_dbusd(blender_t)
+dev_list_sysfs(blender_t)
+dev_read_sysfs(blender_t)
+dev_rw_dri(blender_t)
+files_manage_generic_tmp_dirs(blender_t)
+fs_list_tmpfs(blender_t)
+kernel_dgram_send(blender_t)
+logging_create_devlog_dev(blender_t)
+udev_read_db(blender_t)
+userdom_manage_tmp_dirs(blender_t)
+userdom_manage_tmp_files(blender_t)
+userdom_manage_user_home_dirs(blender_t)
+userdom_mmap_user_home_content_files(blender_t)
+userdom_stream_connect(blender_t)
+userdom_use_inherited_user_ptys(blender_t)
+xserver_manage_user_xauth(blender_t)
