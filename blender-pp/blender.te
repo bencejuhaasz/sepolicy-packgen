@@ -73,8 +73,7 @@ files_manage_generic_tmp_dirs(blender_t)
 fs_getattr_tmpfs(blender_t)
 userdom_manage_tmp_dirs(blender_t)
 userdom_manage_tmp_files(blender_t)
-#fs_exec_tmpfs_files(user_t)
-#fs_rw_inherited_tmpfs_files(user_t)
+fs_rw_inherited_tmpfs_files(user_t)
 
 #socket
 dbus_stream_connect_system_dbusd(blender_t)
@@ -100,7 +99,7 @@ pulseaudio_stream_connect(blender_t)
 
 
 
-#userdom_mmap_user_home_content_files(blender_t)
+userdom_mmap_user_home_content_files(blender_t)
 userdom_use_inherited_user_ptys(blender_t)
 
 
