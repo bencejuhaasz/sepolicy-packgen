@@ -57,14 +57,16 @@ allow user_t blender_exec_t:file {execute read open};
 
 #allow blender_t
 allow blender_t user_t:unix_stream_socket connectto;
+allow blender_t self:unix_dgram_socket { connect create };
+
 allow blender_t blender_file_t:dir { open read getattr search write add_name remove_name create rename};
 allow blender_t blender_file_t:file { getattr open read execute map write create rename unlink};
-allow blender_t self:process execmem;
+
 allow blender_t tmpfs_t:file { map read write };
 allow blender_t proc_t:file { getattr open read };
+
 allow blender_t self:netlink_kobject_uevent_socket { bind create getattr setopt };
-allow blender_t self:process { setcap setrlimit setsched };
-allow blender_t self:unix_dgram_socket { connect create };
+allow blender_t self:process { setcap setrlimit setsched  execmem};
 
 #tmp
 fs_list_tmpfs(blender_t)
@@ -97,7 +99,7 @@ xserver_manage_user_xauth(blender_t)
 pulseaudio_stream_connect(blender_t)
 
 
-
+#user
 userdom_mmap_user_home_content_files(blender_t)
 userdom_use_inherited_user_ptys(blender_t)
 
