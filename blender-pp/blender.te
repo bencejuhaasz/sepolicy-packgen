@@ -46,14 +46,14 @@ role user_r types {blender_t blender_file_t blender_exec_t};
 alsa_read_rw_config(blender_t)
 
 #allow user_t
-allow user_t blender_file_t:file {relabelfrom};
-allow user_t blender_exec_t:file {relabelto};
-allow user_t blender_file_t:file {getattr read open};
-allow user_t blender_file_t:dir {getattr search read open};
+allow user_t blender_file_t:dir {relabelfrom relabelto};
+allow user_t blender_file_t:file {relabelfrom relabelto};
+allow user_t blender_exec_t:file {relabelfrom relabelto};
+
+allow user_t blender_file_t:file {getattr read open write};
+allow user_t blender_file_t:dir {getattr search read open write add_name remove_name create rename};
 allow user_t blender_exec_t:file {execute read open};
-allow user_t blender_file_t:file {relabelto};
-allow user_t blender_file_t:dir relabelto;
-allow user_t blender_exec_t:file {relabelto};
+
 
 #allow blender_t
 allow blender_t user_t:unix_stream_socket connectto;
