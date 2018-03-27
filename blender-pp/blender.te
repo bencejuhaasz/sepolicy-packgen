@@ -10,7 +10,6 @@ require {
 	type pulseaudio_home_t;
         type sound_device_t;
 	type pulseaudio_exec_t;
-	class unix_stream_socket connectto;
 	class netlink_kobject_uevent_socket { bind create getattr setopt };
         class unix_dgram_socket { connect create };
 	#tmp
