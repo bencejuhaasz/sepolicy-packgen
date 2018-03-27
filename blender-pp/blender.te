@@ -14,6 +14,7 @@ require {
         class unix_dgram_socket { connect create };
 	#tmp
 	type tmpfs_t;
+	type tmp_t;
 	#proc
 	type proc_t;
 	#file
@@ -63,6 +64,7 @@ allow blender_t blender_file_t:dir { open read getattr search write add_name rem
 allow blender_t blender_file_t:file { getattr open read execute map write create rename unlink};
 
 allow blender_t tmpfs_t:file { map read write };
+allow blender_t tmp_t:file {create write open read};
 allow blender_t proc_t:file { getattr open read };
 
 allow blender_t self:netlink_kobject_uevent_socket { bind create getattr setopt };
@@ -70,10 +72,10 @@ allow blender_t self:process { setcap setrlimit setsched  execmem};
 
 #tmp
 fs_list_tmpfs(blender_t)
-files_manage_generic_tmp_dirs(blender_t)
+#files_manage_generic_tmp_dirs(blender_t)
 fs_getattr_tmpfs(blender_t)
-userdom_manage_tmp_dirs(blender_t)
-userdom_manage_tmp_files(blender_t)
+#userdom_manage_tmp_dirs(blender_t)
+#userdom_manage_tmp_files(blender_t)
 fs_rw_inherited_tmpfs_files(user_t)
 
 #socket
